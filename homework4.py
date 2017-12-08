@@ -71,14 +71,28 @@ def get_binary_cifar10():
     xtrain = xtrain/255
 
     xtest, ytest = test
-    ytest_1hot = [1 if e>1 and e<8 else 0 for e in ytrain]
+    ytest_1hot = np.array([1 if e>1 and e<8 else 0 for e in ytest])
     xtest = xtest/255
 
     return xtrain, ytrain_1hot, xtest, ytest_1hot
 
 
 def build_binary_classifier():
-    nn = build_convolution_nn()
+    #>>> nn.evaluate(xt,yt)
+    #10000/10000 [==============================] - 27s 3ms/step
+    #[1.0367493948936461, 0.72489999999999999]
+    nn = Sequential()
+    nn.add(Conv2D(32, (3, 3), activation='relu', padding="same",input_shape=(32,32,3)))
+    nn.add(Conv2D(32, (3, 3), activation='relu', padding="same"))
+    nn.add(MaxPooling2D(pool_size=(2, 2)))
+    #nn.add(Dropout(0.25))
+    nn.add(Conv2D(32, (3, 3), activation='relu', padding="same"))
+    nn.add(Conv2D(32, (3, 3), activation='relu', padding="same"))
+    nn.add(MaxPooling2D(pool_size=(2, 2)))
+    #nn.add(Dropout(0.5))
+    nn.add(Flatten())
+    nn.add(Dense(units=250, activation="relu"))
+    nn.add(Dense(units=100, activation="relu"))
     nn.add(Dense(units=1, activation="sigmoid"))
     return nn
 
@@ -86,7 +100,7 @@ def build_binary_classifier():
 def train_binary_classifier(model, xtrain, ytrain):
     sgd = optimizers.SGD(lr=0.01)
     model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
-    model.fit(xtrain, ytrain_1hot, epochs=20, batch_size=32)
+    model.fit(xtrain, ytrain, epochs=20, batch_size=32)
 
 
 if __name__ == "__main__":
