@@ -38,7 +38,7 @@ def build_multilayer_nn():
 def train_multilayer_nn(model, xtrain, ytrain):
     sgd = optimizers.SGD(lr=0.01)
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-    model.fit(xtrain, ytrain, epochs=5, batch_size=32)
+    model.fit(xtrain, ytrain, epochs=20, batch_size=32)
 
 
 def build_convolution_nn0():
@@ -129,7 +129,7 @@ def build_convolution_nn():
 def train_convolution_nn(model, xtrain, ytrain ):
     sgd = optimizers.SGD(lr=0.01)
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-    model.fit(xtrain, ytrain, epochs=1, batch_size=32)
+    model.fit(xtrain, ytrain, epochs=20, batch_size=32)
 
 
 def get_binary_cifar10():
@@ -225,7 +225,7 @@ def build_binary_classifier3():
 def train_binary_classifier(model, xtrain, ytrain):
     sgd = optimizers.SGD(lr=0.01)
     model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
-    model.fit(xtrain, ytrain, epochs=1, batch_size=32)
+    model.fit(xtrain, ytrain, epochs=20, batch_size=32)
 
 
 if __name__ == "__main__":
